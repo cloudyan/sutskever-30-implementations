@@ -168,3 +168,4 @@ wandb/
 # Large model files (if any get added)
 *.bin
 *.safetensors
+anaconda_projects

@@ -25,11 +25,39 @@
 # 进入目录
 cd sutskever-30-implementations
 
-# 安装依赖
+# 使用 uv 安装依赖（推荐）
+uv sync
+
+# 或使用 pip 安装依赖
 pip install numpy matplotlib scipy
 
 # 运行任意 notebook
 jupyter notebook 02_char_rnn_karpathy.ipynb
+```
+
+### 依赖管理
+
+本项目使用 `uv` 工具进行依赖管理。如需添加新依赖，请参考 [DEPENDENCY_MANAGEMENT.md](DEPENDENCY_MANAGEMENT.md) 文档。
+
+安装 uv：
+```bash
+# 使用 pipx 安装 uv（推荐）
+pipx install uv
+
+# 或使用 curl 安装
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+使用 uv 管理依赖：
+```bash
+# 添加依赖
+uv add numpy matplotlib scipy
+
+# 同步所有依赖
+uv sync
+
+# 更新依赖
+uv sync --upgrade
 ```
 
 ## Sutskever 30 篇论文
