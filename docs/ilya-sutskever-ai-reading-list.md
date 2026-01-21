@@ -12,6 +12,8 @@ _"If you really learn all of these, you'll know 90% of what matters today."_
 
 [About](#about) • [Reading Roadmap](#reading-roadmap) • [Papers by Topic](#papers-by-topic) • [Getting Started](#getting-started) • [Contributing](#contributing)
 
+https://github.com/AnupBhat30/ilya-sutskever-ai-reading-list
+
 </div>
 
 ---
