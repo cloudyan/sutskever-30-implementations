@@ -67,6 +67,7 @@ https://github.com/AnupBhat30/ilya-sutskever-ai-reading-list
 4. **带注释的 Transformer** — _Harvard NLP_
    "Attention Is All You Need" 的逐行实现，附带完整可运行的代码。通过构建来学习。
    [博客文章](https://nlp.seas.harvard.edu/2018/04/03/attention.html)
+   该文章是由康奈尔大学副教授 Alexander Rush 等研究者在 2018 年撰写的博客文章 ，该文章对transformer进行了逐行级的解释，并利用 Python 完整实现了 Transformer架构，可以帮助读者在了解理论的同时，结合实践加深认识。 https://github.com/harvardnlp/annotated-transformer/
 
 5. **使用深度卷积神经网络进行 ImageNet 分类**（AlexNet）
    2012 年开启深度学习革命的论文。理解这篇论文为后续所有内容提供了背景。

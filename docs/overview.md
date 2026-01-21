@@ -76,6 +76,14 @@ Ilya Sutskever 的这30篇论文就是**AI 领域的"50道经典菜谱"**：
 
 ### 1. **The First Law of Complexodynamics** (Aaronson, 2013)
 
+这是Scott Aaronson 的名为《复杂动力学第一定律》的文章，讨论了
+
+为什么物理系统的“复杂性”或“趣味性”似乎随着时间的推移而增加，然后达到最大值，再逐渐减少，而熵当然是单调增加的？
+
+Aaronson 试图用 Kolmogorov 复杂性和相关概念来解释这一现象，并指出了这一领域的若干挑战和可能的解决方案。
+
+- 文章：https://scottaaronson.blog/?p=762
+
 #### 🎓 小白版解释
 
 **它解决了什么问题？**
@@ -115,6 +123,10 @@ Ilya Sutskever 的这30篇论文就是**AI 领域的"50道经典菜谱"**：
 ---
 
 ### 2. **The Unreasonable Effectiveness of Recurrent Neural Networks** (Karpathy, 2015)
+
+该文章是由 Andrej Karpathy 2015 年撰写的一篇博客，强调 RNN 的有效性，文章探讨了 RNN 处理序列数据的强大能力
+
+- 地址：https://karpathy.github.io/2015/05/21/rnn-effectiveness/
 
 #### 🎓 小白版解释
 
@@ -158,6 +170,10 @@ Ilya Sutskever 的这30篇论文就是**AI 领域的"50道经典菜谱"**：
 ---
 
 ### 3. **Understanding LSTM Networks** (Olah, 2015)
+
+该文由Anthropic 联合创始人、Ilya 和 Christopher Olah 于 15 年撰写，本文介绍了LSTM长短期记忆，它是一种特殊的循环神经网络，能够处理长期依赖关系。它在语音识别、语言建模、翻译、图像描述等领域取得了巨大成功。
+
+- 地址：https://colah.github.io/posts/2015-08-Understanding-LSTMs/
 
 #### 🎓 小白版解释
 
@@ -206,6 +222,10 @@ LSTM（长短期记忆网络）给计算机加了**三个"阀门"**：
 ---
 
 ### 4. **Recurrent Neural Network Regularization** (Zaremba et al., 2014)
+
+本文是由ilya 2015年撰写的，提出了一种递归神经网络的简单正则化技术（RNN）与长短期存储器（LSTM）单元。 Dropout是正则化神经网络最成功 的技术，但它不能很好地与RNN配合使用 和LSTM。 在本文 中我们展示 了如何正确地将dropout应用于LSTM， 并表明它大大减少了对各种任务的过拟合。 这些任务 包括语言建模、语音识别、图像字幕生成，以及 机器翻译。
+
+- 地址：https://arxiv.org/pdf/1409.2329.pdf
 
 #### 🎓 小白版解释
 
@@ -666,6 +686,8 @@ ResNet给网络加了**"跳跃连接"（shortcut），像修了条**信息高速
 
 ### 13. **Attention Is All You Need** (Transformer, 2017)
 
+- transformer开山论文，不得不看。
+
 #### 🎓 小白版解释
 
 **它解决了什么问题？**
@@ -708,6 +730,14 @@ ResNet给网络加了**"跳跃连接"（shortcut），像修了条**信息高速
 - 多头注意力机制
 - 位置编码(positional encoding)
 - 注意力权重矩阵可视化
+
+#### The Annotated Transformer
+
+该文章是由康奈尔大学副教授 Alexander Rush 等研究者在 2018 年撰写的博客文章 ，该文章对transformer进行了逐行级的解释，并利用 Python 完整实现了 Transformer架构，可以帮助读者在了解理论的同时，结合实践加深认识。
+
+文章：https://arc.net/folder/D0472A20-9C20-4D3F-B145-D2865C0A9FEE
+
+代码： https://github.com/harvardnlp/annotated-transformer/
 
 ---
 
