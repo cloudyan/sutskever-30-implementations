@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(superpowers:writing-skills)",
+      "Bash(tree ~/.claude/skills/professional-translation)",
+      "Bash(find ~/.claude/skills/professional-translation -type f -exec basename {} ;)"
+    ]
+  }
+}
