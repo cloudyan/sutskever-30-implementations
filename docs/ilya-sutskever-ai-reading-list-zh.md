@@ -52,24 +52,24 @@ https://github.com/AnupBhat30/ilya-sutskever-ai-reading-list
 **目标：** 理解神经网络是什么以及它们如何工作
 **时间投入：** 4-6 周
 
-1. **CS231n：用于视觉识别的卷积神经网络**
+1. 26. **CS231n：用于视觉识别的卷积神经网络**
    斯坦福大学的传奇课程。从这里开始，这是深度学习基础的最佳入门，涵盖从反向传播到 CNN 的所有内容。
    [课程网站](https://cs231n.github.io/)
 
-2. **循环神经网络的惊人有效性** — _Andrej Karpathy_
+2. 2. **循环神经网络的惊人有效性** — _Andrej Karpathy_
    一篇直观、代码驱动的循环网络入门。在深入 RNN 如何工作之前，先展示它们能做什么。
    [博客文章](https://karpathy.github.io/2015/05/21/rnn-effectiveness/)
 
-3. **理解 LSTM 网络** — _Christopher Olah_
+3. 3. **理解 LSTM 网络** — _Christopher Olah_
    有史以来对 LSTM 最清晰的可视化解释。对于理解序列建模至关重要。
    [博客文章](https://colah.github.io/posts/2015-08-Understanding-LSTMs/)
 
-4. **带注释的 Transformer** — _Harvard NLP_
+4. 13. **带注释的 Transformer** — _Harvard NLP_
    "Attention Is All You Need" 的逐行实现，附带完整可运行的代码。通过构建来学习。
    [博客文章](https://nlp.seas.harvard.edu/2018/04/03/attention.html)
    该文章是由康奈尔大学副教授 Alexander Rush 等研究者在 2018 年撰写的博客文章 ，该文章对transformer进行了逐行级的解释，并利用 Python 完整实现了 Transformer架构，可以帮助读者在了解理论的同时，结合实践加深认识。 https://github.com/harvardnlp/annotated-transformer/
 
-5. **使用深度卷积神经网络进行 ImageNet 分类**（AlexNet）
+5. 7. **使用深度卷积神经网络进行 ImageNet 分类**（AlexNet）
    2012 年开启深度学习革命的论文。理解这篇论文为后续所有内容提供了背景。
    [论文](https://proceedings.neurips.cc/paper_files/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html)
 
@@ -79,11 +79,11 @@ https://github.com/AnupBhat30/ilya-sutskever-ai-reading-list
 **目标：** 掌握核心架构和注意力机制
 **时间投入：** 6-8 周
 
-6. **用于图像识别的深度残差学习**（ResNet）
+6. 10. **用于图像识别的深度残差学习**（ResNet）
    跳跃连接彻底改变了深度学习，使得 100+ 层的网络成为可能。这是让现代深度学习成为可能的论文。
    [arXiv](https://arxiv.org/abs/1512.03385)
 
-7. **Attention Is All You Need**
+7. 13. **Attention Is All You Need**
    Transformer 架构，驱动了 GPT、BERT 和大多数现代语言模型。这是有史以来最具影响力的机器学习论文之一。
    [arXiv](https://arxiv.org/abs/1706.03762)
 
@@ -95,11 +95,11 @@ https://github.com/AnupBhat30/ilya-sutskever-ai-reading-list
    如何使用神经网络处理可变长度输出和组合问题。
    [arXiv](https://arxiv.org/abs/1506.03134)
 
-10. **循环神经网络正则化**
+10. 4. **循环神经网络正则化**
     将 Dropout 应用于 RNN 的正确方法。简短但对于实际实现至关重要。
     [arXiv](https://arxiv.org/abs/1409.2329)
 
-11. **使用循环神经网络生成序列**
+11. 20. **使用循环神经网络生成序列**
     Alex Graves 关于使用 RNN 进行序列生成的杰作。介绍了混合密度网络，并展示了如何生成手写和文本。
     [arXiv](https://arxiv.org/abs/1308.0850)
 
@@ -179,7 +179,7 @@ https://github.com/AnupBhat30/ilya-sutskever-ai-reading-list
     压缩和学习是一枚硬币的两面。许多机器学习算法的基础原理。
     [arXiv](https://arxiv.org/abs/math/0406077)
 
-28. **通过最小化权重的描述长度保持神经网络简单**
+28. 23. **通过最小化权重的描述长度保持神经网络简单**
     将 MDL 应用于神经网络。奥卡姆剃刀原理的形式化。
     [PDF](https://www.cs.toronto.edu/~fritz/absps/colt93.pdf)
 
@@ -189,11 +189,11 @@ https://github.com/AnupBhat30/ilya-sutskever-ai-reading-list
 **目标：** 实现深入的理论理解
 **时间投入：** 数月
 
-29. **机器超级智能** — _Shane Legg_
+29. 24. **机器超级智能** — _Shane Legg_
     关于智能和通用人工智能形式化理论的博士论文。内容密集但收获丰富。
     [PDF](http://www.vetta.org/documents/Machine_Super_Intelligence.pdf)
 
-30. **Kolmogorov 复杂性介绍及其应用**（第 7 章，第 434 页起）
+30. 25. **Kolmogorov 复杂性介绍及其应用**（第 7 章，第 434 页起）
     信息、随机性和学习的数学基础。具有挑战性但基础。
     [PDF](https://www.lirmm.fr/~ashen/kolmbook-eng-scan.pdf)
 
