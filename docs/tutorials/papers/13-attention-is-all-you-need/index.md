@@ -15,13 +15,13 @@ RNN/LSTM 的问题:
 
 1. 串行计算:
    h_t = f(h_{t-1}, x_t)
-   
+
    必须等 h_{t-1} 算完才能算 h_t
    无法并行,训练慢!
 
 2. 长程依赖:
    即使有 LSTM,长距离依赖还是难
-   
+
    "我出生在...[很长很长的文字]...那里的美食..."
    LSTM 早就忘了"出生在"后面是哪里了
 
@@ -57,7 +57,7 @@ $$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)
 
 其中:
 - $Q$ (Query): 查询矩阵
-- $K$ (Key): 键矩阵  
+- $K$ (Key): 键矩阵
 - $V$ (Value): 值矩阵
 - $d_k$: 键的维度
 
@@ -96,32 +96,32 @@ def softmax(x, axis=-1):
 def scaled_dot_product_attention(Q, K, V, mask=None):
     """
     缩放点积注意力
-    
+
     参数:
         Q: 查询 (seq_len_q, d_k)
         K: 键 (seq_len_k, d_k)
         V: 值 (seq_len_v, d_v)
         mask: 可选的掩码 (seq_len_q, seq_len_k)
-    
+
     返回:
         output: 注意力输出
         attention_weights: 注意力权重
     """
     d_k = Q.shape[-1]
-    
+
     # 1. 计算注意力分数
     scores = np.dot(Q, K.T) / np.sqrt(d_k)
-    
+
     # 2. 应用掩码(如果有)
     if mask is not None:
         scores = scores + (mask * -1e9)
-    
+
     # 3. Softmax 得到注意力权重
     attention_weights = softmax(scores, axis=-1)
-    
+
     # 4. 加权求和
     output = np.dot(attention_weights, V)
-    
+
     return output, attention_weights
 
 # 测试
@@ -175,24 +175,24 @@ print(attn_weights.sum(axis=1))
 class MultiHeadAttention:
     """
     多头注意力
-    
+
     将输入分割成多个头,每个头独立计算注意力,最后合并
     """
     def __init__(self, d_model, num_heads):
         assert d_model % num_heads == 0, "d_model 必须能被 num_heads 整除"
-        
+
         self.d_model = d_model
         self.num_heads = num_heads
         self.d_k = d_model // num_heads  # 每个头的维度
-        
+
         # Q, K, V 的线性变换
         self.W_q = np.random.randn(d_model, d_model) * 0.1
         self.W_k = np.random.randn(d_model, d_model) * 0.1
         self.W_v = np.random.randn(d_model, d_model) * 0.1
-        
+
         # 输出的线性变换
         self.W_o = np.random.randn(d_model, d_model) * 0.1
-    
+
     def split_heads(self, x):
         """
         分割多头: (seq_len, d_model) → (num_heads, seq_len, d_k)
@@ -200,7 +200,7 @@ class MultiHeadAttention:
         seq_len = x.shape[0]
         x = x.reshape(seq_len, self.num_heads, self.d_k)
         return x.transpose(1, 0, 2)
-    
+
     def combine_heads(self, x):
         """
         合并多头: (num_heads, seq_len, d_k) → (seq_len, d_model)
@@ -208,14 +208,14 @@ class MultiHeadAttention:
         seq_len = x.shape[1]
         x = x.transpose(1, 0, 2)
         return x.reshape(seq_len, self.d_model)
-    
+
     def forward(self, Q, K, V, mask=None):
         """
         前向传播
-        
+
         参数:
             Q, K, V: (seq_len, d_model)
-        
+
         返回:
             output: (seq_len, d_model)
         """
@@ -223,30 +223,30 @@ class MultiHeadAttention:
         Q = np.dot(Q, self.W_q.T)
         K = np.dot(K, self.W_k.T)
         V = np.dot(V, self.W_v.T)
-        
+
         # 2. 分割多头
         Q = self.split_heads(Q)  # (num_heads, seq_len, d_k)
         K = self.split_heads(K)
         V = self.split_heads(V)
-        
+
         # 3. 每个头计算注意力
         head_outputs = []
         attention_weights = []
-        
+
         for i in range(self.num_heads):
             head_out, head_attn = scaled_dot_product_attention(
                 Q[i], K[i], V[i], mask
             )
             head_outputs.append(head_out)
             attention_weights.append(head_attn)
-        
+
         # 4. 合并多头
         heads = np.stack(head_outputs, axis=0)
         combined = self.combine_heads(heads)
-        
+
         # 5. 最终线性变换
         output = np.dot(combined, self.W_o.T)
-        
+
         return output
 
 # 测试
@@ -294,26 +294,26 @@ $$PE_{(pos, 2i+1)} = \cos(pos / 10000^{2i/d_{model}})$$
 def positional_encoding(seq_len, d_model):
     """
     正弦位置编码
-    
+
     参数:
         seq_len: 序列长度
         d_model: 模型维度
-    
+
     返回:
         pe: (seq_len, d_model) 位置编码
     """
     pe = np.zeros((seq_len, d_model))
-    
+
     position = np.arange(0, seq_len)[:, np.newaxis]
-    div_term = np.exp(np.arange(0, d_model, 2) * 
+    div_term = np.exp(np.arange(0, d_model, 2) *
                       -(np.log(10000.0) / d_model))
-    
+
     # 偶数维度用 sin
     pe[:, 0::2] = np.sin(position * div_term)
-    
+
     # 奇数维度用 cos
     pe[:, 1::2] = np.cos(position * div_term)
-    
+
     return pe
 
 # 测试
@@ -387,7 +387,7 @@ Add & Norm ←───────────┘
 class FeedForward:
     """
     前馈网络
-    
+
     两个线性变换 + ReLU
     """
     def __init__(self, d_model, d_ff):
@@ -395,14 +395,14 @@ class FeedForward:
         self.b1 = np.zeros(d_ff)
         self.W2 = np.random.randn(d_ff, d_model) * 0.1
         self.b2 = np.zeros(d_model)
-    
+
     def forward(self, x):
         # 第一层 + ReLU
         hidden = np.maximum(0, np.dot(x, self.W1) + self.b1)
-        
+
         # 第二层
         output = np.dot(hidden, self.W2) + self.b2
-        
+
         return output
 
 class LayerNorm:
@@ -411,19 +411,19 @@ class LayerNorm:
         self.gamma = np.ones(d_model)
         self.beta = np.zeros(d_model)
         self.eps = eps
-    
+
     def forward(self, x):
         mean = np.mean(x, axis=-1, keepdims=True)
         var = np.var(x, axis=-1, keepdims=True)
-        
+
         x_norm = (x - mean) / np.sqrt(var + self.eps)
-        
+
         return self.gamma * x_norm + self.beta
 
 class TransformerEncoderLayer:
     """
     Transformer 编码器层
-    
+
     包含:
     1. 多头自注意力
     2. 前馈网络
@@ -435,16 +435,16 @@ class TransformerEncoderLayer:
         self.ffn = FeedForward(d_model, d_ff)
         self.norm1 = LayerNorm(d_model)
         self.norm2 = LayerNorm(d_model)
-    
+
     def forward(self, x, mask=None):
         # 1. 多头自注意力 + 残差连接 + 层归一化
         attn_out = self.mha.forward(x, x, x, mask)
         x = self.norm1.forward(x + attn_out)
-        
+
         # 2. 前馈网络 + 残差连接 + 层归一化
         ffn_out = self.ffn.forward(x)
         x = self.norm2.forward(x + ffn_out)
-        
+
         return x
 
 class TransformerEncoder:
@@ -454,7 +454,7 @@ class TransformerEncoder:
             TransformerEncoderLayer(d_model, num_heads, d_ff)
             for _ in range(num_layers)
         ]
-    
+
     def forward(self, x, mask=None):
         for layer in self.layers:
             x = layer.forward(x, mask)
@@ -618,7 +618,7 @@ class TransformerDecoderLayer:
 def create_causal_mask(seq_len):
     """
     创建因果掩码
-    
+
     用于自回归生成,防止看到未来信息
     """
     # TODO: 实现

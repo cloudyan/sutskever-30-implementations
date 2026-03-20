@@ -3,63 +3,335 @@
 <head>
   <meta charset="UTF-8">
   <title>Sutskever 30 论文纯 NumPy 实现教程</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Ilya Sutskever 推荐的 30 篇经典深度学习论文纯 NumPy 实现教程，帮助你深入理解深度学习核心机制">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+
+  <!-- 主题 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+
+  <!-- Mermaid 支持 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.css">
+
+  <!-- KaTeX 数学公式支持 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+
+  <!-- 自定义样式 -->
+  <style>
+    /* 封面样式 */
+    .cover-main {
+      text-align: center;
+    }
+
+    .cover-main h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .cover-main blockquote {
+      font-size: 1.2rem;
+      color: #666;
+      border: none;
+      margin: 2rem 0;
+    }
+
+    /* 侧边栏样式 */
+    .sidebar-nav {
+      font-size: 14px;
+    }
+
+    .sidebar-nav ul li {
+      margin: 0.5rem 0;
+    }
+
+    .sidebar-nav ul li a {
+      padding: 0.3rem 1rem;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    .sidebar-nav ul li a:hover {
+      background: #f0f0f0;
+    }
+
+    .sidebar-nav ul li.active > a {
+      background: #42b983;
+      color: white;
+    }
+
+    /* 内容样式 */
+    .markdown-section {
+      max-width: 1100px;
+      width: 94%;
+      padding: 2rem 3rem;
+    }
+
+    .markdown-section h1 {
+      font-size: 2rem;
+      border-bottom: 2px solid #42b983;
+      padding-bottom: 0.5rem;
+    }
+
+    .markdown-section h2 {
+      font-size: 1.5rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.3rem;
+    }
+
+    .markdown-section h3 {
+      font-size: 1.25rem;
+    }
+
+    .markdown-section code {
+      background: #f8f8f8;
+      border-radius: 3px;
+      padding: 0.2rem 0.4rem;
+    }
+
+    .markdown-section pre {
+      background: #f8f8f8;
+      border-radius: 6px;
+      padding: 1rem;
+    }
+
+    .markdown-section pre code {
+      background: transparent;
+    }
+
+    /* Mermaid 图表样式 */
+    .mermaid {
+      text-align: center;
+      margin: 1.5rem 0;
+    }
+
+    .mermaid svg {
+      max-width: 100%;
+    }
+
+    /* 表格样式 */
+    .markdown-section table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+
+    .markdown-section table th,
+    .markdown-section table td {
+      border: 1px solid #ddd;
+      padding: 0.75rem;
+      text-align: left;
+    }
+
+    .markdown-section table th {
+      background: #f5f5f5;
+      font-weight: 600;
+    }
+
+    .markdown-section table tr:nth-child(even) {
+      background: #fafafa;
+    }
+
+    /* 引用块样式 */
+    .markdown-section blockquote {
+      border-left: 4px solid #42b983;
+      background: #f8f8f8;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    /* 提示框样式 */
+    .tip {
+      background: #e6f7ff;
+      border-left: 4px solid #1890ff;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .warning {
+      background: #fff7e6;
+      border-left: 4px solid #faad14;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .danger {
+      background: #fff1f0;
+      border-left: 4px solid #ff4d4f;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 0 4px 4px 0;
+    }
+
+    /* 搜索框样式 */
+    .search {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .search input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    /* 分页导航 */
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid #eee;
+    }
+
+    .pagination a {
+      color: #42b983;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border: 1px solid #42b983;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    .pagination a:hover {
+      background: #42b983;
+      color: white;
+    }
+
+    /* 代码高亮 */
+    .lang-typescript { color: #2c3e50; }
+    .token.comment { color: #999; }
+    .token.keyword { color: #c678dd; }
+    .token.string { color: #98c379; }
+    .token.number { color: #d19a66; }
+    .token.function { color: #61afef; }
+    .token.operator { color: #56b6c2; }
+  </style>
 </head>
 <body>
   <div id="app"></div>
+
   <script>
     window.$docsify = {
       name: 'Sutskever 30',
       repo: 'https://github.com/cloudyan/sutskever-30-implementations',
-      homepage: 'overview.md',
-      // 改用非下划线命名
-      loadSidebar: 'sidebar.md',
-      subMaxLevel: 4,
-      autoHeader: true,
-      maxLevel: 4,
-      routerMode: 'hash',
+
+      // 封面
+      coverpage: true,
+
+      // 侧边栏
+      // 改用非下划线命名 'sidebar.md'
+      loadSidebar: true,
+      subMaxLevel: 3,
+
+      // 导航栏
+      loadNavbar: true,
+
+      // 搜索
       search: {
-        maxAge: 86400000,
-        paths: 'auto',
         placeholder: '搜索文档...',
         noData: '没有找到结果',
-        depth: 6,
-        hideOtherSidebarContent: false,
-        namespace: 'nanoclaw-docs'
+        paths: 'auto',
+        depth: 6
       },
-      copyCode: {
-        buttonText: '复制',
-        errorText: '错误',
-        successText: '已复制'
-      },
+
+      // 分页
       pagination: {
-        previousText: '上一章',
-        nextText: '下一章',
+        previousText: '上一篇',
+        nextText: '下一篇',
         crossChapter: true,
-        crossChapterText: {
-          prev: '上一篇',
-          next: '下一篇'
+        crossChapterText: true
+      },
+
+      // 插件
+      plugins: [
+        function(hook, vm) {
+          // Mermaid 渲染
+          hook.beforeEach(function(content) {
+            // 确保 Mermaid 图表正确渲染
+            return content;
+          });
+
+          hook.doneEach(function() {
+            if (window.mermaid) {
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            }
+          });
         }
-      }
-    }
+      ],
+
+      // 路由
+      routerMode: 'hash',
+
+      // 首页
+      homepage: 'pi-mono-tutorial/README.md',
+
+      // 相对路径
+      relativePath: true,
+
+      // 自动跳转到封面
+      auto2top: true,
+
+      // 格式化
+      formatUpdated: '{YYYY}-{MM}-{DD}',
+
+      // 主题色
+      themeColor: '#42b983'
+    };
   </script>
-  <!-- Docsify v4 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+
+  <!-- Docsify -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
+
+  <!-- docsify-katex 依赖的 Marked 全局对象 -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@4"></script>
+
+  <!-- KaTeX 数学公式 -->
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-katex@2.0.2/dist/docsify-katex.js"></script>
+
   <!-- 搜索插件 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
-  <!-- 复制代码插件 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+
   <!-- 分页插件 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify-pagination@2/dist/docsify-pagination.min.js"></script>
-  <!-- Mermaid 图表支持 -->
-  <script src="//cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify-mermaid@latest/dist/docsify-mermaid.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-pagination@2/dist/docsify-pagination.min.js"></script>
+
+  <!-- Mermaid -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-mermaid@2.0.0/dist/docsify-mermaid.min.js"></script>
+
   <!-- 代码高亮 -->
-  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-typescript.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+
+  <!-- 图片缩放 -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
+
+  <!-- 复制代码 -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@3"></script>
+
+  <!-- 外链在新标签打开 -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/external-script.min.js"></script>
+
+  <script>
+    // 初始化 Mermaid
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'default',
+      securityLevel: 'loose',
+      themeVariables: {
+        primaryColor: '#42b983',
+        primaryTextColor: '#000',
+        primaryBorderColor: '#42b983',
+        lineColor: '#666',
+        secondaryColor: '#f0f0f0',
+        tertiaryColor: '#fff'
+      }
+    });
+  </script>
 </body>
 </html>

@@ -97,12 +97,12 @@ import matplotlib.pyplot as plt
 def rule_30(left, center, right):
     """
     Rule 30 规则实现
-    
+
     参数:
         left: 左邻居状态 (0 或 1)
         center: 当前格状态 (0 或 1)
         right: 右邻居状态 (0 或 1)
-    
+
     返回:
         int: 新状态 (0 或 1)
     """
@@ -116,19 +116,19 @@ def rule_30(left, center, right):
 def evolve_ca(initial_state, steps, rule_func):
     """
     演化元胞自动机
-    
+
     参数:
         initial_state: 初始状态数组
         steps: 演化步数
         rule_func: 规则函数
-    
+
     返回:
         np.ndarray: 演化历史，形状 (steps, size)
     """
     size = len(initial_state)
     history = np.zeros((steps, size), dtype=int)
     history[0] = initial_state
-    
+
     for t in range(1, steps):
         for i in range(size):
             # 周期性边界条件（首尾相连）
@@ -136,7 +136,7 @@ def evolve_ca(initial_state, steps, rule_func):
             center = history[t-1, i]
             right = history[t-1, (i+1) % size]
             history[t, i] = rule_func(left, center, right)
-    
+
     return history
 
 # 创建初始状态：只有中间一个格子是黑色
@@ -187,15 +187,15 @@ from scipy.stats import entropy
 def measure_entropy_over_time(history):
     """
     测量每个时间步的香农熵
-    
+
     参数:
         history: 演化历史，形状 (steps, size)
-    
+
     返回:
         np.ndarray: 熵值数组，形状 (steps,)
     """
     entropies = []
-    
+
     for t in range(len(history)):
         state = history[t]
         # 计算概率分布
@@ -204,7 +204,7 @@ def measure_entropy_over_time(history):
         # 计算香农熵（以 2 为底）
         ent = entropy(probs, base=2)
         entropies.append(ent)
-    
+
     return np.array(entropies)
 
 # 计算熵的变化
@@ -264,38 +264,38 @@ print(f"熵增量: {entropies[-1] - entropies[0]:.4f} bits")
 def diffusion_2d(grid, steps, diffusion_rate=0.1):
     """
     2D 扩散模拟（咖啡混合）
-    
+
     参数:
         grid: 初始网格，形状 (h, w)
         steps: 模拟步数
         diffusion_rate: 扩散速率
-    
+
     返回:
         np.ndarray: 混合历史，形状 (steps, h, w)
     """
     history = [grid.copy()]
-    
+
     for _ in range(steps):
         new_grid = grid.copy()
         h, w = grid.shape
-        
+
         # 每个格点与邻居交换物质
         for i in range(1, h-1):
             for j in range(1, w-1):
                 # 四个邻居的平均值
                 neighbors = (
-                    grid[i-1, j] + grid[i+1, j] + 
+                    grid[i-1, j] + grid[i+1, j] +
                     grid[i, j-1] + grid[i, j+1]
                 ) / 4
                 # 扩散更新
                 new_grid[i, j] = (
-                    (1 - diffusion_rate) * grid[i, j] + 
+                    (1 - diffusion_rate) * grid[i, j] +
                     diffusion_rate * neighbors
                 )
-        
+
         grid = new_grid
         history.append(grid.copy())
-    
+
     return np.array(history)
 
 # 创建初始状态：咖啡中倒入牛奶
@@ -393,17 +393,17 @@ t=0           t=10          t=30          t=50
 def entropy_regularization(predictions):
     """
     熵正则化项
-    
+
     参数:
         predictions: 模型预测的概率分布
-    
+
     返回:
         float: 熵值（鼓励探索）
     """
     # 避免数值问题
     eps = 1e-10
     predictions = np.clip(predictions, eps, 1 - eps)
-    
+
     # 计算熵
     ent = -np.sum(predictions * np.log2(predictions))
     return ent
@@ -453,14 +453,14 @@ def evolve_ca(initial_state, steps, rule_func):
     size = len(initial_state)
     history = np.zeros((steps, size), dtype=int)
     history[0] = initial_state
-    
+
     for t in range(1, steps):
         for i in range(size):
             left = history[t-1, (i-1) % size]
             center = history[t-1, i]
             right = history[t-1, (i+1) % size]
             history[t, i] = rule_func(left, center, right)
-    
+
     return history
 
 # ==================== 熵测量 ====================
@@ -490,47 +490,47 @@ def measure_spatial_complexity(history):
 def main():
     # 设置随机种子（可复现）
     np.random.seed(42)
-    
+
     # 创建初始状态
     size = 100
     initial = np.zeros(size, dtype=int)
     initial[size // 2] = 1
-    
+
     # 演化
     steps = 100
     evolution = evolve_ca(initial, steps, rule_30)
-    
+
     # 测量
     entropies = measure_entropy_over_time(evolution)
     complexities = measure_spatial_complexity(evolution)
-    
+
     # 可视化
     fig, axes = plt.subplots(1, 3, figsize=(18, 5))
-    
+
     # 子图 1: 元胞自动机演化
     axes[0].imshow(evolution, cmap='binary', interpolation='nearest')
     axes[0].set_title('Rule 30 元胞自动机演化', fontsize=14)
     axes[0].set_xlabel('格子位置', fontsize=12)
     axes[0].set_ylabel('时间步', fontsize=12)
-    
+
     # 子图 2: 熵增长
     axes[1].plot(entropies, linewidth=2, color='#2E86AB')
     axes[1].set_xlabel('时间步', fontsize=12)
     axes[1].set_ylabel('香农熵 (bits)', fontsize=12)
     axes[1].set_title('熵的增长', fontsize=14)
     axes[1].grid(True, alpha=0.3)
-    
+
     # 子图 3: 空间复杂度
     axes[2].plot(complexities, linewidth=2, color='#E94F37')
     axes[2].set_xlabel('时间步', fontsize=12)
     axes[2].set_ylabel('空间复杂度', fontsize=12)
     axes[2].set_title('复杂度增长', fontsize=14)
     axes[2].grid(True, alpha=0.3)
-    
+
     plt.tight_layout()
     plt.savefig('complexity_dynamics.png', dpi=150, bbox_inches='tight')
     plt.show()
-    
+
     # 打印统计信息
     print("=" * 50)
     print("复杂度动力学统计")
@@ -632,9 +632,9 @@ def custom_rule(left, center, right):
 
 ### 论文
 
-- **Scott Aaronson (2005)**: "The First Law of Complexodynamics" 
+- **Scott Aaronson (2005)**: "The First Law of Complexodynamics"
   - 原文链接：[Scott Aaronson's Blog](https://www.scottaaronson.com/blog/?p=27)
-  
+
 - **Claude Shannon (1948)**: "A Mathematical Theory of Communication"
   - 信息论奠基之作
 
