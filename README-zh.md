@@ -363,6 +363,16 @@ sutskever-30-implementations/
 
 ## 学习路径
 
+> 📖 **零基础学习者**：强烈建议先阅读 [零基础学习指南 (LEARNING-GUIDE-zh.md)](./LEARNING-GUIDE-zh.md)，包含完整的学习路线、核心概念深度解析（Kolmogorov 复杂度、Scaling Laws、Grounding 等）和每篇论文的通俗讲解。
+
+### 零基础系统路径（推荐新手）
+1. **Kolmogorov 复杂度** (`25_kolmogorov_complexity.ipynb`) - 什么是信息？什么是规律？
+2. **MDL 原理** (`23_mdl_principle.ipynb`) - 把理论变成实用的模型选择工具
+3. **复杂动力学** (`01_complexity_dynamics.ipynb`) - 熵与涌现
+4. **CS231n** (`26_cs231n_cnn_fundamentals.ipynb`) - 完整视觉流水线 (kNN → CNN)
+5. **字符 RNN** (`02_char_rnn_karpathy.ipynb`) - 最简单的序列模型
+6. **LSTM** (`03_lstm_understanding.ipynb`) - 门控机制与长期记忆
+
 ### 初学者路径（从这里开始！）
 1. **字符 RNN** (`02_char_rnn_karpathy.ipynb`) - 学习基础 RNN
 2. **LSTM** (`03_lstm_understanding.ipynb`) - 理解门控机制
