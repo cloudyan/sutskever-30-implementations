@@ -1,0 +1,272 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{3d,calc}
+
+\begin{document}
+
+% ============================================
+% 图1：偏导数的几何意义 - 3D曲面与切面
+% ============================================
+\begin{tikzpicture}[scale=1.2]
+    \begin{axis}[
+        width=12cm,
+        height=10cm,
+        view={120}{30},
+        xlabel={$x$},
+        ylabel={$y$},
+        zlabel={$z$},
+        xlabel style={sloped like x axis},
+        ylabel style={sloped like y axis},
+        zlabel style={sloped like z axis},
+        xmin=-3, xmax=3,
+        ymin=-3, ymax=3,
+        zmin=0, zmax=18,
+        colormap/viridis,
+        colorbar,
+        colorbar style={
+            title={$z$值},
+            yticklabel style={font=\small}
+        },
+        title={\textbf{偏导数的几何意义：} $z = x^2 + y^2$},
+        title style={font=\large, yshift=0.5cm}
+    ]
+    
+    % 绘制曲面 z = x^2 + y^2
+    \addplot3[
+        surf,
+        shader=interp,
+        opacity=0.7,
+        domain=-2.5:2.5,
+        domain y=-2.5:2.5,
+        samples=30,
+        samples y=30,
+    ] {x^2 + y^2};
+    
+    % 标记点 P(1, 1, 2)
+    \addplot3[only marks, mark=*, mark size=3pt, color=red] coordinates {(1, 1, 2)};
+    \node[pin=120:{$P(1,1,2)$}] at (axis cs:1,1,2) {};
+    
+    % 沿x方向的切面（固定y=1）
+    \addplot3[
+        mesh,
+        color=red,
+        thick,
+        domain=-2:2,
+        domain y=1:1,
+        samples=20,
+    ] {x^2 + 1};
+    
+    % 沿y方向的切面（固定x=1）
+    \addplot3[
+        mesh,
+        color=blue,
+        thick,
+        domain=1:1,
+        domain y=-2:2,
+        samples=20,
+    ] {1 + y^2};
+    
+    % 添加图例说明
+    \node[anchor=north west, fill=white, draw=black, rounded corners] 
+        at (axis cs:2.5,2.5,15) {
+        \begin{tabular}{l}
+            \textcolor{red}{$\bullet$} 点 $P(1,1,2)$ \\
+            \textcolor{red}{$-$} 沿$x$方向切面 ($y=1$) \\
+            \textcolor{blue}{$-$} 沿$y$方向切面 ($x=1$) \\
+        \end{tabular}
+    };
+    
+    \end{axis}
+\end{tikzpicture}
+
+\newpage
+
+% ============================================
+% 图2：梯度下降过程可视化
+% ============================================
+\begin{tikzpicture}[scale=1.2]
+    \begin{axis}[
+        width=12cm,
+        height=10cm,
+        view={60}{30},
+        xlabel={$w_1$},
+        ylabel={$w_2$},
+        zlabel={$L$},
+        xlabel style={sloped like x axis},
+        ylabel style={sloped like y axis},
+        zlabel style={sloped like z axis},
+        xmin=-3, xmax=3,
+        ymin=-3, ymax=3,
+        zmin=0, zmax=10,
+        colormap/hot,
+        title={\textbf{梯度下降：}在损失函数曲面上寻找最小值},
+        title style={font=\large, yshift=0.5cm}
+    ]
+    
+    % 绘制损失函数曲面（碗状）
+    \addplot3[
+        surf,
+        shader=interp,
+        opacity=0.6,
+        domain=-2.5:2.5,
+        domain y=-2.5:2.5,
+        samples=25,
+        samples y=25,
+    ] {0.5*(x^2 + y^2)};
+    
+    % 梯度下降路径点
+    \def\points{}
+    \foreach \i in {0,1,...,10} {
+        \pgfmathsetmacro{\t}{2.5*0.8^\i}
+        \pgfmathsetmacro{\z}{0.5*(\t^2 + \t^2)}
+        \addplot3[only marks, mark=*, mark size=2pt, color=red] 
+            coordinates {(\t,\t,\z)};
+    }
+    
+    % 最低点
+    \addplot3[only marks, mark=*, mark size=4pt, color=green] 
+        coordinates {(0,0,0)};
+    \node[pin=-90:{\textcolor{green}{最小值点}}] at (axis cs:0,0,0) {};
+    
+    % 起始点标注
+    \node[pin=45:{\textcolor{red}{起始点}}] at (axis cs:2.5,2.5,6.25) {};
+    
+    % 添加箭头表示梯度方向
+    \draw[->, thick, red] (axis cs:2.5,2.5,6.25) -- (axis cs:2,2,4);
+    \draw[->, thick, red] (axis cs:2,2,4) -- (axis cs:1.6,1.6,2.56);
+    \draw[->, thick, red] (axis cs:1.6,1.6,2.56) -- (axis cs:1.28,1.28,1.638);
+    
+    \end{axis}
+\end{tikzpicture}
+
+\newpage
+
+% ============================================
+% 图3：链式法则的分解图
+% ============================================
+\begin{tikzpicture}[
+    node distance=2.5cm,
+    box/.style={rectangle, draw, fill=blue!20, thick, 
+                minimum width=2cm, minimum height=1cm, font=\large},
+    arrow/.style={->, thick, >=stealth},
+    label/.style={font=\small, fill=white, inner sep=2pt}
+]
+
+% 标题
+\node[font=\Large\bfseries] at (0, 3) {链式法则：复合函数求导的分解};
+
+% 节点
+\node[box] (x) at (-6, 0) {$x$};
+\node[box] (y) at (-2, 0) {$y = f(x)$};
+\node[box] (z) at (2, 0) {$z = g(y)$};
+\node[box] (dzdx) at (6, 0) {$\frac{dz}{dx}$};
+
+% 箭头
+\draw[arrow] (x) -- (y) node[midway, above, label] {$\frac{dy}{dx}$};
+\draw[arrow] (y) -- (z) node[midway, above, label] {$\frac{dz}{dy}$};
+\draw[arrow] (z) -- (dzdx) node[midway, above, label] {相乘};
+
+% 公式
+\node[font=\Large] at (0, -2) {$\displaystyle \frac{dz}{dx} = \frac{dz}{dy} \cdot \frac{dy}{dx}$};
+
+% 说明
+\node[text width=10cm, align=center, font=\small] at (0, -3.5) {
+    从 $x$ 到 $z$ 的变化率 = 从 $x$ 到 $y$ 的变化率 $\times$ 从 $y$ 到 $z$ 的变化率
+};
+
+\end{tikzpicture}
+
+\newpage
+
+% ============================================
+% 图4：神经网络中的反向传播
+% ============================================
+\begin{tikzpicture}[
+    node distance=1.8cm,
+    neuron/.style={circle, draw, fill=blue!30, thick, minimum size=1cm, font=\large},
+    input/.style={circle, draw, fill=green!30, thick, minimum size=1cm, font=\large},
+    output/.style={circle, draw, fill=red!30, thick, minimum size=1cm, font=\large},
+    arrow/.style={->, thick, >=stealth},
+    gradarrow/.style={<-, thick, >=stealth, dashed, red},
+    label/.style={font=\small}
+]
+
+% 标题
+\node[font=\Large\bfseries] at (0, 4) {神经网络中的链式法则（反向传播）};
+
+% 前向传播节点
+\node[input] (x) at (-4, 0) {$x$};
+\node[neuron] (z) at (-1, 0) {$z$};
+\node[neuron] (a) at (2, 0) {$a$};
+\node[output] (L) at (5, 0) {$L$};
+
+% 前向箭头
+\draw[arrow] (x) -- (z) node[midway, above, label] {$z = wx+b$};
+\draw[arrow] (z) -- (a) node[midway, above, label] {$a = \sigma(z)$};
+\draw[arrow] (a) -- (L) node[midway, above, label] {$L = (a-y)^2$};
+
+% 反向传播箭头（梯度）
+\draw[gradarrow] (x) -- (z) node[midway, below, label] {$\frac{\partial z}{\partial w}=x$};
+\draw[gradarrow] (z) -- (a) node[midway, below, label] {$\frac{\partial a}{\partial z}$};
+\draw[gradarrow] (a) -- (L) node[midway, below, label] {$\frac{\partial L}{\partial a}$};
+
+% 总梯度公式
+\node[font=\large] at (0, -3) {
+    $\displaystyle \frac{\partial L}{\partial w} = \frac{\partial L}{\partial a} \cdot \frac{\partial a}{\partial z} \cdot \frac{\partial z}{\partial w}$
+};
+
+% 图例
+\node[anchor=west] at (-6, -4) {\textcolor{blue}{$\bullet$} 前向传播};
+\node[anchor=west] at (-6, -4.5) {\textcolor{red}{$\bullet$} 反向传播（梯度）};
+
+\end{tikzpicture}
+
+\newpage
+
+% ============================================
+% 图5：导数与微分的几何对比
+% ============================================
+\begin{tikzpicture}[scale=1.5]
+    % 坐标轴
+    \draw[->] (-0.5, 0) -- (5, 0) node[right] {$x$};
+    \draw[->] (0, -0.5) -- (0, 4) node[above] {$y$};
+    
+    % 函数曲线 y = x^2 / 2
+    \draw[thick, blue, domain=0.3:4.5, smooth, variable=\x] 
+        plot (\x, {0.5*\x*\x/2});
+    \node[blue] at (4.5, 2.5) {$y = f(x)$};
+    
+    % 点 P(2, 1)
+    \fill[red] (2, 1) circle (2pt);
+    \node[red, above right] at (2, 1) {$P(x_0, f(x_0))$};
+    
+    % 切线
+    \draw[thick, red, dashed, domain=0.5:3.5] 
+        plot (\x, {0.5*\x - 0});
+    \node[red] at (3.5, 1.8) {切线};
+    
+    % dx 和 dy 标注
+    \draw[<->, thick, green!60!black] (2, 1) -- (3, 1) node[midway, below] {$dx$};
+    \draw[<->, thick, orange] (3, 1) -- (3, 1.5) node[midway, right] {$dy$};
+    
+    % Δx 和 Δy 标注
+    \draw[<->, thick, green!60!black, dashed] (2, 1) -- (3, 1);
+    \draw[<->, thick, purple, dashed] (3, 1) -- (3, {0.5*9/2}) node[midway, right] {$\Delta y$};
+    \fill[purple] (3, {0.5*9/2}) circle (1.5pt);
+    
+    % 公式
+    \node[font=\large] at (2.5, -1.2) {
+        $\displaystyle \frac{dy}{dx} = f'(x_0) \quad \Rightarrow \quad dy = f'(x_0) \cdot dx$
+    };
+    
+    \node[font=\small, text width=8cm, align=center] at (2.5, -2.2) {
+        $\Delta y$ = 真实变化（曲线上）\\
+        $dy$ = 线性近似（切线上）\\
+        当 $dx \to 0$ 时：$\Delta y \approx dy$
+    };
+    
+\end{tikzpicture}
+
+\end{document}
