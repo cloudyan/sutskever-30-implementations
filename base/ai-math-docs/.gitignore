@@ -1,0 +1,14 @@
+# Docsify
+.cache/
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+
+# Node
+node_modules/
+
+# 临时文件
+*.tmp
+*.swp

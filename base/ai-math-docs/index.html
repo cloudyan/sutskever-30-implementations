@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 数学基础 60 天学习计划</title>
+  <meta name="description" content="从线性代数到 Transformer 的完整数学体系">
+  <meta name="theme-color" content="#4A90E2">
+  
+  <!-- Docsify Theme: Vue -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/themes/vue.min.css" />
+  
+  <!-- Custom Styles -->
+  <style>
+    :root {
+      --theme-color: #4A90E2;
+      --theme-color-light: #E8F0FE;
+    }
+    
+    .sidebar {
+      background: #fafafa;
+    }
+    
+    .sidebar-nav li {
+      margin: 8px 0;
+    }
+    
+    .sidebar-nav a {
+      color: #333;
+      transition: all 0.2s;
+    }
+    
+    .sidebar-nav a:hover {
+      color: var(--theme-color);
+      background: var(--theme-color-light);
+    }
+    
+    .sidebar-nav .app-sub-sidebar a {
+      font-size: 14px;
+    }
+    
+    .markdown-section {
+      max-width: 900px;
+      padding: 40px 20px;
+    }
+    
+    .markdown-section h1 {
+      color: var(--theme-color);
+      border-bottom: 2px solid var(--theme-color);
+      padding-bottom: 10px;
+    }
+    
+    .markdown-section h2 {
+      color: #2c3e50;
+      border-left: 4px solid var(--theme-color);
+      padding-left: 15px;
+      margin-top: 40px;
+    }
+    
+    .markdown-section h3 {
+      color: #34495e;
+    }
+    
+    .markdown-section code {
+      background: #f6f8fa;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 0.9em;
+    }
+    
+    .markdown-section pre {
+      background: #282c34;
+      border-radius: 6px;
+      padding: 16px;
+      overflow-x: auto;
+    }
+    
+    .markdown-section pre code {
+      background: transparent;
+      color: #abb2bf;
+      padding: 0;
+    }
+    
+    .markdown-section table {
+      display: block;
+      overflow-x: auto;
+      border-collapse: collapse;
+    }
+    
+    .markdown-section table th {
+      background: var(--theme-color-light);
+      color: var(--theme-color);
+      font-weight: 600;
+    }
+    
+    .markdown-section table th,
+    .markdown-section table td {
+      border: 1px solid #dfe2e5;
+      padding: 10px 15px;
+    }
+    
+    .markdown-section table tr:nth-child(2n) {
+      background: #f6f8fa;
+    }
+    
+    .markdown-section blockquote {
+      border-left: 4px solid var(--theme-color);
+      background: var(--theme-color-light);
+      padding: 10px 20px;
+      color: #555;
+    }
+    
+    .markdown-section .callout {
+      padding: 15px;
+      border-radius: 6px;
+      margin: 20px 0;
+    }
+    
+    .markdown-section .callout-tip {
+      background: #E8F5E9;
+      border-left: 4px solid #4CAF50;
+    }
+    
+    .markdown-section .callout-warning {
+      background: #FFF3E0;
+      border-left: 4px solid #FF9800;
+    }
+    
+    .markdown-section .callout-danger {
+      background: #FFEBEE;
+      border-left: 4px solid #F44336;
+    }
+    
+    /* Progress bar for stages */
+    .progress-bar {
+      background: #e0e0e0;
+      border-radius: 10px;
+      height: 20px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+    
+    .progress-bar-fill {
+      background: linear-gradient(90deg, var(--theme-color), #67B26F);
+      height: 100%;
+      transition: width 0.3s;
+    }
+    
+    /* Card style for days */
+    .day-card {
+      border: 1px solid #e1e4e8;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      background: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: all 0.2s;
+    }
+    
+    .day-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+    
+    .day-card h3 {
+      margin-top: 0;
+      color: var(--theme-color);
+    }
+    
+    .day-card .one-liner {
+      font-style: italic;
+      color: #666;
+      margin-bottom: 15px;
+    }
+    
+    /* Formula box */
+    .formula-box {
+      background: #282c34;
+      color: #abb2bf;
+      border-radius: 6px;
+      padding: 15px 20px;
+      margin: 15px 0;
+      font-family: 'Courier New', monospace;
+      overflow-x: auto;
+    }
+    
+    /* Navigation buttons */
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #e1e4e8;
+    }
+    
+    .nav-buttons a {
+      background: var(--theme-color);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    
+    .nav-buttons a:hover {
+      background: #357ABD;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <nav class="app-nav" data-level="2"></nav>
+  </div>
+</body>
+
+  <!-- Docsify -->
+  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  
+  <!-- Plugins -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-javascript.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-typescript.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-yaml.min.js"></script>
+  
+  <!-- MathJax for LaTeX -->
+  <script src="//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+  <!-- Docsify Configuration -->
+  <script>
+    window.$docsify = {
+      name: '📐 AI 数学基础',
+      repo: 'https://github.com/cloudyan/ai-math-docs',
+      homepage: 'README.md',
+      loadSidebar: '_sidebar.md',
+      loadNavbar: false,
+      loadFooter: false,
+      subMaxLevel: 2,
+      maxLevel: 3,
+      auto2top: true,
+      sidebarDisplayLevel: 1,
+      catchNoMatchesError: true,
+      copyCode: {
+        buttonText: '复制',
+        errorText: '错误',
+        successText: '已复制'
+      },
+      search: {
+        maxAge: 86400000,
+        paths: [
+          '/docs/stage1',
+          '/docs/stage2',
+          '/docs/stage3',
+          '/docs/stage4',
+          '/docs/stage5',
+          '/docs/stage6'
+        ],
+        placeholder: '搜索知识点...',
+        noData: '找不到结果',
+        depth: 4
+      },
+      pagination: {
+        previousText: '上一篇',
+        nextText: '下一篇',
+        crossChapter: true,
+        crossChapterText: true
+      },
+      plugins: [
+        function(hook, vm) {
+          hook.beforeEach(function(html) {
+            return html;
+          });
+          
+          hook.afterEach(function(html) {
+            return html + '\n\n---\n\n*最后更新：2026-04-22*';
+          });
+        }
+      ]
+    };
+  </script>
+  
+  <!-- Docsify Pagination Plugin -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-pagination@latest/dist/docsify-pagination.min.js"></script>
+</body>
+</html>

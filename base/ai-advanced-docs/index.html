@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 进阶教程 - 从原理到实现</title>
+  <meta name="description" content="深入理解 AI 原理与实现机制">
+  <meta name="theme-color" content="#6B52D0">
+  
+  <!-- Docsify Theme: Dark -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/themes/dolphin.min.css" />
+  
+  <!-- Custom Styles -->
+  <style>
+    :root {
+      --theme-color: #6B52D0;
+      --theme-color-light: #F0EBFF;
+    }
+    
+    .sidebar {
+      background: #fafafa;
+    }
+    
+    .sidebar-nav li {
+      margin: 8px 0;
+    }
+    
+    .sidebar-nav a {
+      color: #333;
+      transition: all 0.2s;
+    }
+    
+    .sidebar-nav a:hover {
+      color: var(--theme-color);
+      background: var(--theme-color-light);
+    }
+    
+    .markdown-section {
+      max-width: 900px;
+      padding: 40px 20px;
+    }
+    
+    .markdown-section h1 {
+      color: var(--theme-color);
+      border-bottom: 2px solid var(--theme-color);
+      padding-bottom: 10px;
+    }
+    
+    .markdown-section h2 {
+      color: #2c3e50;
+      border-left: 4px solid var(--theme-color);
+      padding-left: 15px;
+      margin-top: 40px;
+    }
+    
+    .markdown-section code {
+      background: #f6f8fa;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 0.9em;
+    }
+    
+    .markdown-section pre {
+      background: #282c34;
+      border-radius: 6px;
+      padding: 16px;
+      overflow-x: auto;
+    }
+    
+    .markdown-section pre code {
+      background: transparent;
+      color: #abb2bf;
+      padding: 0;
+    }
+    
+    .markdown-section table {
+      display: block;
+      overflow-x: auto;
+      border-collapse: collapse;
+    }
+    
+    .markdown-section table th {
+      background: var(--theme-color-light);
+      color: var(--theme-color);
+      font-weight: 600;
+    }
+    
+    .markdown-section table th,
+    .markdown-section table td {
+      border: 1px solid #dfe2e5;
+      padding: 10px 15px;
+    }
+    
+    .markdown-section table tr:nth-child(2n) {
+      background: #f6f8fa;
+    }
+    
+    .formula-box {
+      background: #282c34;
+      color: #abb2bf;
+      border-radius: 6px;
+      padding: 15px 20px;
+      margin: 15px 0;
+      font-family: 'Courier New', monospace;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <nav class="app-nav" data-level="2"></nav>
+  </div>
+
+  <!-- Docsify -->
+  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  
+  <!-- Plugins -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-javascript.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-typescript.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+  
+  <!-- MathJax for LaTeX -->
+  <script src="//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  
+  <!-- Docsify Configuration -->
+  <script>
+    window.$docsify = {
+      name: '🧠 AI 进阶教程',
+      repo: 'https://github.com/cloudyan/ai-advanced-docs',
+      homepage: 'README.md',
+      loadSidebar: '_sidebar.md',
+      loadNavbar: false,
+      subMaxLevel: 3,
+      maxLevel: 4,
+      auto2top: true,
+      copyCode: {
+        buttonText: '复制',
+        errorText: '错误',
+        successText: '已复制'
+      },
+      search: {
+        maxAge: 86400000,
+        placeholder: '搜索知识点...',
+        noData: '找不到结果',
+        depth: 4
+      },
+      plugins: [
+        function(hook, vm) {
+          hook.afterEach(function(html) {
+            return html + '\n\n---\n\n*最后更新：2026-04-22*';
+          });
+        }
+      ]
+    };
+  </script>
+  
+  <!-- Docsify Pagination Plugin -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-pagination@latest/dist/docsify-pagination.min.js"></script>
+</body>
+</html>
